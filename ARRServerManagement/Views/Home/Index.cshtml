@@ -5,6 +5,9 @@
 
     <div class="text-center">
         <h1 class="display-4">Azure Remote Rendering Servers</h1>
+        <input type="button"
+               value="New Session"
+               onclick="location.href='@Url.Action("CreateServer", "Home")'" />
         <h1>Sessions</h1>
         <table id="sessionTable" class="table" cellspacing="0">
             <thead>
@@ -21,21 +24,21 @@
             </thead>
             @foreach (var session in Model.Root.sessions)
             {
-        <tr>
-            <td>  @session.sessionId </td>
-            <td>  @session.sessionHostname </td>
-            <td>  @session.sessionIp</td>
-            <td>  @session.sessionStatus </td>
-            <td>  @session.sessionSize </td>
-            <td>  @session.sessionElapsedTime </td>
-            <td>  @session.sessionMaxLeaseTime </td>
-            <td>  @session.message </td>
-            <td>
-                <input type="button" 
-                       value="Stop Server" 
-                       onclick="location.href='@Url.Action("StopServer", "Home", new { sessionId = session.sessionId })'" />
-            </td>
-        </tr>
+                <tr>
+                    <td>  @session.sessionId </td>
+                    <td>  @session.sessionHostname </td>
+                    <td>  @session.sessionIp</td>
+                    <td>  @session.sessionStatus </td>
+                    <td>  @session.sessionSize </td>
+                    <td>  @session.sessionElapsedTime </td>
+                    <td>  @session.sessionMaxLeaseTime </td>
+                    <td>  @session.message </td>
+                    <td>
+                        <input type="button"
+                               value="Stop Server"
+                               onclick="location.href='@Url.Action("StopServer", "Home", new { sessionId = session.sessionId })'" />
+                    </td>
+                </tr>
             }
         </table>
     </div>

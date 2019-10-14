@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -18,8 +16,6 @@ namespace ARRServerManagement.Controllers
     {
         public string AccessToken { get; set; }
     }
-
-
  
     [Authorize]
     public class HomeController : Controller
@@ -28,6 +24,8 @@ namespace ARRServerManagement.Controllers
 
         private string _arrAccountId = "";
         private string _arrAccountKey = "";
+
+        private TokenResponse _token;
 
         public HomeController(ILogger<HomeController> logger, IConfiguration config)
         {
@@ -46,30 +44,48 @@ namespace ARRServerManagement.Controllers
             }
         }
 
-        public ActionResult StopServer(string sessionId)
+        public ActionResult CreateServer()
         {
+            return View("Create");
+        }
 
+        public async Task<ActionResult> Create(Session session)
+        {
+            return RedirectToAction("Index");
+        }
 
+        public async Task<ActionResult> StopServer(string sessionId)
+        {
+            var token = await GetTokenAsync();
+
+            var httpClient = new HttpClient();
+            httpClient.BaseAddress = new Uri("https://remoterendering.westeurope.mixedreality.azure.com");
+            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+            string uri = $"/v1/accounts/{_arrAccountId}/sessions/{sessionId}";
+
+            var response = await httpClient.DeleteAsync(uri);
+            response.EnsureSuccessStatusCode();
 
             return RedirectToAction("Index");
         }
 
         async Task<string> GetTokenAsync()
         {
-            var httpClient = new HttpClient();
-            httpClient.BaseAddress = new Uri("https://sts.mixedreality.azure.com");
+            if (_token == null)
+            {
+                var httpClient = new HttpClient();
+                httpClient.BaseAddress = new Uri("https://sts.mixedreality.azure.com");
+                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer",
+                    $"{_arrAccountId}:{_arrAccountKey}");
 
+                string uri = $"accounts/{_arrAccountId}/token";
+                var resp = await httpClient.GetStringAsync(uri);
 
-            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer",
-                $"{_arrAccountId}:{_arrAccountKey}");
-
-            string uri = $"accounts/{_arrAccountId}/token";
-
-            var resp = await httpClient.GetStringAsync(uri);
-
-            var tokenResponse = JsonConvert.DeserializeObject<TokenResponse>(resp);
-
-            return tokenResponse.AccessToken;
+                var tokenResponse = JsonConvert.DeserializeObject<TokenResponse>(resp);
+                _token = tokenResponse;
+            }
+            return _token.AccessToken;
         }
 
         public async Task<IActionResult> Index()
