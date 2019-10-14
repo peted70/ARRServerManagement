@@ -1,0 +1,41 @@
+﻿@model SessionsModel
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+    <div class="text-center">
+        <h1 class="display-4">Azure Remote Rendering Servers</h1>
+        <h1>Sessions</h1>
+        <table id="sessionTable" class="table" cellspacing="0">
+            <thead>
+                <tr>
+                    <td>Session ID</td>
+                    <td>Host Name</td>
+                    <td>Session IP</td>
+                    <td>Status</td>
+                    <td>VM Size</td>
+                    <td>Elapsed</td>
+                    <td>Max Lease</td>
+                    <td>Message</td>
+                </tr>
+            </thead>
+            @foreach (var session in Model.Root.sessions)
+            {
+        <tr>
+            <td>  @session.sessionId </td>
+            <td>  @session.sessionHostname </td>
+            <td>  @session.sessionIp</td>
+            <td>  @session.sessionStatus </td>
+            <td>  @session.sessionSize </td>
+            <td>  @session.sessionElapsedTime </td>
+            <td>  @session.sessionMaxLeaseTime </td>
+            <td>  @session.message </td>
+            <td>
+                <input type="button" 
+                       value="Stop Server" 
+                       onclick="location.href='@Url.Action("StopServer", "Home", new { sessionId = session.sessionId })'" />
+            </td>
+        </tr>
+            }
+        </table>
+    </div>
