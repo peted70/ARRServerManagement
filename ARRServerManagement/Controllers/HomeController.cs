@@ -109,7 +109,7 @@ namespace ARRServerManagement.Controllers
 
         public async Task<IActionResult> Index()
         {
-            Response.Headers.Add("Refresh", "5");
+            Response.Headers.Add("Refresh", "10");
             var token = await GetTokenAsync();
 
             var httpClient = new HttpClient();
