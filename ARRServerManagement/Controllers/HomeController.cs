@@ -51,7 +51,7 @@ namespace ARRServerManagement.Controllers
 
 
 
-            return View("Home");
+            return RedirectToAction("Index");
         }
 
         async Task<string> GetTokenAsync()
