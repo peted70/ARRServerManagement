@@ -34,6 +34,13 @@ namespace ARRServerManagement.Models
         public string sessionStatus { get; set; }
     }
 
+    public class CreateModel
+    {
+        public List<string> Models { get; set; } = new List<string>() { "builtin://UnitySampleModel", "blah" };
+
+        public CreateSession Session { get; set; } = new CreateSession();
+    }
+
     public class CreateSession
     {
         [Display(Name ="Max. Lease Time")]

@@ -48,7 +48,7 @@ namespace ARRServerManagement.Controllers
 
         public ActionResult CreateServer()
         {
-            return View("Create", new CreateSession());
+            return View("Create", new CreateModel());
         }
 
         public async Task<ActionResult> Create(CreateSession session)
