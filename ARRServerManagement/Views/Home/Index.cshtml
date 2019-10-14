@@ -20,25 +20,29 @@
                     <td>Elapsed</td>
                     <td>Max Lease</td>
                     <td>Message</td>
+                    <td>Inspect</td>
                 </tr>
             </thead>
             @foreach (var session in Model.Root.sessions)
             {
-                <tr>
-                    <td>  @session.sessionId </td>
-                    <td>  @session.sessionHostname </td>
-                    <td>  @session.sessionIp</td>
-                    <td>  @session.sessionStatus </td>
-                    <td>  @session.sessionSize </td>
-                    <td>  @session.sessionElapsedTime </td>
-                    <td>  @session.sessionMaxLeaseTime </td>
-                    <td>  @session.message </td>
-                    <td>
-                        <input type="button"
-                               value="Stop Server"
-                               onclick="location.href='@Url.Action("StopServer", "Home", new { sessionId = session.sessionId })'" />
-                    </td>
-                </tr>
+        <tr>
+            <td>  @session.sessionId </td>
+            <td>  @session.sessionHostname </td>
+            <td>  @session.sessionIp</td>
+            <td>  @session.sessionStatus </td>
+            <td>  @session.sessionSize </td>
+            <td>  @session.sessionElapsedTime </td>
+            <td>  @session.sessionMaxLeaseTime </td>
+            <td>  @session.message </td>
+            <td>
+                <a href="https://inspector:Knowl3dg3!@@@session.sessionHostname:5000" target="_blank">Inspector</a>
+            </td>
+            <td>
+                <input type="button"
+                       value="Stop Server"
+                       onclick="location.href='@Url.Action("StopServer", "Home", new { sessionId = session.sessionId })'" />
+            </td>
+        </tr>
             }
         </table>
     </div>
