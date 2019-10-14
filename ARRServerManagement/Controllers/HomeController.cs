@@ -9,6 +9,8 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
+using System.Text;
+using Newtonsoft.Json.Converters;
 
 namespace ARRServerManagement.Controllers
 {
@@ -46,11 +48,28 @@ namespace ARRServerManagement.Controllers
 
         public ActionResult CreateServer()
         {
-            return View("Create");
+            return View("Create", new CreateSession());
         }
 
-        public async Task<ActionResult> Create(Session session)
+        public async Task<ActionResult> Create(CreateSession session)
         {
+            var token = await GetTokenAsync();
+
+            var httpClient = new HttpClient();
+            httpClient.BaseAddress = new Uri("https://remoterendering.westeurope.mixedreality.azure.com");
+            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+            string uri = $"/v1/accounts/{_arrAccountId}/sessions/create";
+
+            var settings = new JsonSerializerSettings();
+            settings.Converters.Add(new StringEnumConverter());
+
+            var sessionStr = JsonConvert.SerializeObject(session, settings);
+
+            StringContent content = new StringContent(sessionStr, Encoding.UTF8, "application/json");
+
+            var response = await httpClient.PostAsync(uri, content);
+            response.EnsureSuccessStatusCode();
+
             return RedirectToAction("Index");
         }
 

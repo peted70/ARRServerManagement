@@ -1,4 +1,4 @@
-﻿@model ARRServerManagement.Models.Session
+﻿@model ARRServerManagement.Models.CreateSession
 
 @{
     ViewData["Title"] = "Create";
@@ -13,20 +13,21 @@
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="message" class="control-label"></label>
-                <input asp-for="message" class="form-control" />
-                <span asp-validation-for="message" class="text-danger"></span>
+                <label asp-for="maxLeaseTime" class="control-label"></label>
+                <input asp-for="maxLeaseTime" class="form-control" />
+                <span asp-validation-for="maxLeaseTime" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="sessionMaxLeaseTime" class="control-label"></label>
-                <input asp-for="sessionMaxLeaseTime" class="form-control" />
-                <span asp-validation-for="sessionMaxLeaseTime" class="text-danger"></span>
+                <label asp-for="size" class="control-label"></label>
+                <select asp-for="size" asp-items="@Html.GetEnumSelectList(typeof(SessionSize))">
+                </select>
+                <span asp-validation-for="size" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="sessionSize" class="control-label"></label>
-                <input asp-for="sessionSize" class="form-control" />
-                <span asp-validation-for="sessionSize" class="text-danger"></span>
-            </div>
+            @*<div class="form-group">
+                <label asp-for="models" class="control-label"></label>
+                <input asp-for="models" class="form-control" />
+                <span asp-validation-for="models" class="text-danger"></span>
+            </div>*@
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
