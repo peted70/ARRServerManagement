@@ -23,15 +23,16 @@ namespace ARRServerManagement.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-
+        private readonly IModelAccessor _modelAccessor;
         private string _arrAccountId = "";
         private string _arrAccountKey = "";
 
         private TokenResponse _token;
 
-        public HomeController(ILogger<HomeController> logger, IConfiguration config)
+        public HomeController(ILogger<HomeController> logger, IConfiguration config, IModelAccessor modelAccessor)
         {
             _logger = logger;
+            _modelAccessor = modelAccessor;
 
             _arrAccountId = config.GetValue<string>("ARR:AccountId");
             if (string.IsNullOrEmpty(_arrAccountId))

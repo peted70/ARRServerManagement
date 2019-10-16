@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using ARRServerManagement.Models;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.AzureAD.UI;
 using Microsoft.AspNetCore.Authorization;
@@ -30,7 +31,7 @@ namespace ARRServerManagement
             services.AddAuthentication(AzureADDefaults.AuthenticationScheme)
                 .AddAzureAD(options => Configuration.Bind("AzureAd", options));
 
-            var arrAccountId = Configuration["ARR:AccountId"];
+            services.AddSingleton<IModelAccessor, BlobStorageModelAccessor>();
 
             services.AddControllersWithViews(options =>
             {
