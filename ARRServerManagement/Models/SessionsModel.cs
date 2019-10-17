@@ -38,10 +38,10 @@ namespace ARRServerManagement.Models
     {
         public List<string> Models { get; set; } = new List<string>() { "builtin://UnitySampleModel", "blah" };
 
-        public CreateSession Session { get; set; } = new CreateSession();
+        public SessionDescriptor Session { get; set; } = new SessionDescriptor();
     }
 
-    public class CreateSession
+    public class SessionDescriptor
     {
         [Display(Name ="Max. Lease Time")]
         [DataType(DataType.Time)]

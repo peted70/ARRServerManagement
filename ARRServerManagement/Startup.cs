@@ -32,6 +32,7 @@ namespace ARRServerManagement
                 .AddAzureAD(options => Configuration.Bind("AzureAd", options));
 
             services.AddSingleton<IModelAccessor, BlobStorageModelAccessor>();
+            services.AddSingleton<IARRService, ARRService>();
 
             services.AddControllersWithViews(options =>
             {
