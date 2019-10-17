@@ -21,6 +21,8 @@
                     <td>Max Lease</td>
                     <td>Message</td>
                     <td>Inspect</td>
+                    <td>Stop</td>
+                    <td>Extend</td>
                 </tr>
             </thead>
             @foreach (var session in Model.Root.sessions)
@@ -41,6 +43,11 @@
                 <input type="button"
                        value="Stop Server"
                        onclick="location.href='@Url.Action("StopServer", "Home", new { sessionId = session.sessionId })'" />
+            </td>
+            <td>
+                <input type="button"
+                       value="Stop Server"
+                       onclick="location.href='@Url.Action("ExtendServer", "Home", new { sessionId = session.sessionId })'" />
             </td>
         </tr>
             }

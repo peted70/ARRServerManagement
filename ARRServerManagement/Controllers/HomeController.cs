@@ -16,8 +16,8 @@ namespace ARRServerManagement.Controllers
         private readonly IModelAccessor _modelAccessor;
         private readonly IARRService _arrService;
 
-        public HomeController(ILogger<HomeController> logger, IConfiguration config, 
-                              IModelAccessor modelAccessor, IARRService arrService)
+        public HomeController(ILogger<HomeController> logger, IModelAccessor modelAccessor, 
+            IARRService arrService)
         {
             _logger = logger;
             _modelAccessor = modelAccessor;
@@ -38,6 +38,12 @@ namespace ARRServerManagement.Controllers
         public async Task<ActionResult> StopServer(string sessionId)
         {
             await _arrService.StopServerAsync(sessionId);
+            return RedirectToAction("Index");
+        }
+
+        public async Task<ActionResult> ExtendServer(string sessionId)
+        {
+            await _arrService.ExtendSessionAsync(sessionId);
             return RedirectToAction("Index");
         }
 
