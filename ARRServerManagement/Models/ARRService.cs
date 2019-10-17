@@ -69,6 +69,17 @@ namespace ARRServerManagement.Models
             response.EnsureSuccessStatusCode();
         }
 
+        public async Task ExtendSessionAsync(string sessionId)
+        {
+            using var httpClient = await GetHttpClientAsync();
+            string uri = $"/v1/accounts/{_arrAccountId}/sessions/{sessionId}";
+
+            var str = JsonConvert.SerializeObject(new { maxLeaseTime = new TimeSpan(1, 0, 0) });
+            StringContent content = new StringContent(str, Encoding.UTF8, "application/json");
+            var response = await httpClient.PatchAsync(uri, content);
+            response.EnsureSuccessStatusCode();
+        }
+
         public async Task<SessionsModel> GetSessionsAsync()
         {
             using var httpClient = await GetHttpClientAsync();
