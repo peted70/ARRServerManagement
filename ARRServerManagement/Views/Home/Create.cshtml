@@ -24,20 +24,30 @@
                 <span asp-validation-for="Session.size" class="text-danger"></span>
             </div>
             @*<div class="form-group">
-            <label asp-for="models" class="control-label"></label>
-            <input asp-for="models" class="form-control" />
-            <span asp-validation-for="models" class="text-danger"></span>
-        </div>*@
+                <label asp-for="models" class="control-label"></label>
+                <input asp-for="models" class="form-control" />
+                <span asp-validation-for="models" class="text-danger"></span>
+            </div>*@
             <div class="form-group">
-            <label asp-for="Session.models" class="control-label"></label>
-            @Html.ListBoxFor(s => s.Session.models, new SelectList(Model.Models))
-            <span asp-validation-for="Session.models" class="text-danger"></span>
-        </div>
-            
+                <label asp-for="Session.models" class="control-label"></label>
+                @Html.ListBoxFor(s => s.Session.models, new SelectList(Model.Models))
+                <span asp-validation-for="Session.models" class="text-danger"></span>
+            </div>
+
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
         </form>
+
+        @*@Html.DropDownListFor(model => model.,
+         Model.codelist,
+         new Dictionary<string, object>() { { "size", "3" } })
+
+        @foreach (var session in Model.Containers)
+        {
+            <ul>@session.Name</ul>
+        }*@
+
     </div>
 </div>
 

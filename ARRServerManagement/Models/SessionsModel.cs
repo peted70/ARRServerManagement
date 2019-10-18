@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json.Converters;
+﻿using Microsoft.WindowsAzure.Storage.Blob;
+using Newtonsoft.Json.Converters;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -39,6 +40,8 @@ namespace ARRServerManagement.Models
         public List<string> Models { get; set; } = new List<string>() { "builtin://UnitySampleModel", "blah" };
 
         public SessionDescriptor Session { get; set; } = new SessionDescriptor();
+
+        public List<CloudBlobContainer> Containers { get; set; } = new List<CloudBlobContainer>();
     }
 
     public class SessionDescriptor

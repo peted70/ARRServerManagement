@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using ARRServerManagement.Models;
-using Microsoft.Extensions.Configuration;
 
 namespace ARRServerManagement.Controllers
 {
@@ -24,9 +23,11 @@ namespace ARRServerManagement.Controllers
             _arrService = arrService;
         }
 
-        public ActionResult CreateServer()
+        public async Task<ActionResult> CreateServer()
         {
-            return View("Create", new CreateModel());
+            var cm = new CreateModel();
+            cm.Containers = await _modelAccessor.GetContainersAsync();
+            return View("Create", cm);
         }
 
         public async Task<ActionResult> Create(SessionDescriptor session)
