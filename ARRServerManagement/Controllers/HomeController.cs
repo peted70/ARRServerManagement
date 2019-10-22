@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using ARRServerManagement.Models;
+using Microsoft.WindowsAzure.Storage.Blob;
+using System.Collections.Generic;
 
 namespace ARRServerManagement.Controllers
 {
@@ -15,6 +17,8 @@ namespace ARRServerManagement.Controllers
         private readonly IModelAccessor _modelAccessor;
         private readonly IARRService _arrService;
 
+        private readonly CreateModel _cm = new CreateModel();
+
         public HomeController(ILogger<HomeController> logger, IModelAccessor modelAccessor, 
             IARRService arrService)
         {
@@ -25,9 +29,18 @@ namespace ARRServerManagement.Controllers
 
         public async Task<ActionResult> CreateServer()
         {
-            var cm = new CreateModel();
-            cm.Containers = await _modelAccessor.GetContainersAsync();
-            return View("Create", cm);
+            _cm.Containers = await _modelAccessor.GetContainersAsync();
+            return View("Create", _cm);
+        }
+
+        public async Task<IEnumerable<CloudBlob>> GetBlobs()
+        {
+            var ret = new List<CloudBlob>();
+            if (_cm != null && _cm.SelectedContainer != null)
+            {
+                ret = await _modelAccessor.ListBlobsAsync(_cm.SelectedContainer, ".ezArchive");
+            }
+            return ret;
         }
 
         public async Task<ActionResult> Create(SessionDescriptor session)

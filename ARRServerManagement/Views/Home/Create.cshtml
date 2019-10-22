@@ -24,29 +24,31 @@
                 <span asp-validation-for="Session.size" class="text-danger"></span>
             </div>
             @*<div class="form-group">
-                <label asp-for="models" class="control-label"></label>
-                <input asp-for="models" class="form-control" />
-                <span asp-validation-for="models" class="text-danger"></span>
-            </div>*@
-            <div class="form-group">
+                    <label asp-for="models" class="control-label"></label>
+                    <input asp-for="models" class="form-control" />
+                    <span asp-validation-for="models" class="text-danger"></span>
+                </div>*@
+            @*<div class="form-group">
                 <label asp-for="Session.models" class="control-label"></label>
                 @Html.ListBoxFor(s => s.Session.models, new SelectList(Model.Models))
                 <span asp-validation-for="Session.models" class="text-danger"></span>
-            </div>
+            </div>*@
 
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
         </form>
 
-        @*@Html.DropDownListFor(model => model.,
-         Model.codelist,
-         new Dictionary<string, object>() { { "size", "3" } })
+     @*   @Html.ListBoxFor(s => s.SelectedContainer, new SelectList(Model.Containers, "Name", "Name"), new { id = "BlobSelectionListBox" }))*@
 
-        @foreach (var session in Model.Containers)
-        {
-            <ul>@session.Name</ul>
-        }*@
+        @*@Html.DropDownListFor(model => model.,
+             Model.codelist,
+             new Dictionary<string, object>() { { "size", "3" } })
+
+            @foreach (var session in Model.Containers)
+            {
+                <ul>@session.Name</ul>
+            }*@
 
     </div>
 </div>
@@ -56,5 +58,19 @@
 </div>
 
 @section Scripts {
+    <script type="text/javascript">
+        $(document).ready(function () {
+            // when selection fires
+            $('#BlobSelectionListBox').change(function () {
+                // Retrieve the blobs for the selected containers and display them in a listbox...
+                var url = '@Url.Action("DisplaySearchResults", "Home")';
+$('#search').click(function() {
+  var keyWord = $('#Keyword').val();
+  $('#searchResults').load(url, { searchText: keyWord });
+})
+            });
+
+        });
+    </script>
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }

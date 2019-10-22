@@ -7,6 +7,7 @@ namespace ARRServerManagement.Models
     public interface IModelAccessor
     {
         Task<List<CloudBlobContainer>> GetContainersAsync();
-        Task<List<CloudBlob>> ListBlobsAsync(string filter);
+        Task<List<CloudBlob>> ListAllBlobsAsync(string filter);
+        Task<List<CloudBlob>> ListBlobsAsync(CloudBlobContainer container, string filter);
     }
 }

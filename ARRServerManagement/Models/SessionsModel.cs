@@ -37,11 +37,13 @@ namespace ARRServerManagement.Models
 
     public class CreateModel
     {
-        public List<string> Models { get; set; } = new List<string>() { "builtin://UnitySampleModel", "blah" };
+        public List<string> Models { get; set; } = new List<string>() { /*"builtin://UnitySampleModel", "blah"*/ };
 
         public SessionDescriptor Session { get; set; } = new SessionDescriptor();
 
         public List<CloudBlobContainer> Containers { get; set; } = new List<CloudBlobContainer>();
+
+        public CloudBlobContainer SelectedContainer;
     }
 
     public class SessionDescriptor

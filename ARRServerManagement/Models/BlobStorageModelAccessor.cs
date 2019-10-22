@@ -25,13 +25,31 @@ namespace ARRServerManagement.Models
             _blobClient = _storageAccount.CreateCloudBlobClient();
         }
 
-        public async Task<List<CloudBlob>> ListBlobsAsync(string filter)
+        public async Task<List<CloudBlob>> ListAllBlobsAsync(string filter)
         {
             BlobContinuationToken continuationToken = null;
             List<CloudBlob> results = new List<CloudBlob>();
             do
             {
                 var response = await _blobClient.ListBlobsSegmentedAsync("", true, BlobListingDetails.None, 
+                    500, continuationToken, null, null);
+
+                continuationToken = response.ContinuationToken;
+                results.AddRange(response.Results
+                    .Where(b => b is CloudBlob && ((CloudBlob)b).Name.EndsWith(filter))
+                    .Cast<CloudBlob>());
+            }
+            while (continuationToken != null);
+            return results;
+        }
+
+        public async Task<List<CloudBlob>> ListBlobsAsync(CloudBlobContainer container, string filter)
+        {
+            BlobContinuationToken continuationToken = null;
+            List<CloudBlob> results = new List<CloudBlob>();
+            do
+            {
+                var response = await container.ListBlobsSegmentedAsync("", true, BlobListingDetails.None,
                     500, continuationToken, null, null);
 
                 continuationToken = response.ContinuationToken;
